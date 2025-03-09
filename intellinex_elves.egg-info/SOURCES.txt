@@ -17,6 +17,7 @@ src/api/__init__.py
 src/api/v1/__init__.py
 src/api/v1/routes.py
 src/api/v1/endpoint/__init__.py
+src/api/v1/endpoint/product.py
 src/api/v1/endpoint/user.py
 src/core/__init__.py
 src/core/config.py

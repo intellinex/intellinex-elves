@@ -11,7 +11,7 @@ httpcore==1.0.7
 httptools==0.6.4
 httpx==0.28.1
 idna==3.10
--e git+https://github.com/intellinex/fastapi-mongodb.git@e2dc3486ee8395230b362388276ffa31ed32deae#egg=intellinex_elves
+-e git+https://github.com/intellinex/intellinex-elves.git@c3e0b4dc133b67a4599d4586b516afa032b018aa#egg=intellinex_elves
 Jinja2==3.1.6
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2

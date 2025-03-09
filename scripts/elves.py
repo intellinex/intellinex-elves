@@ -156,15 +156,17 @@ def delete_{endpoint_name.lower()}_by_id(item_id: int):
 @click.argument("endpoint_name")
 def resource(endpoint_name):
     """
-    Generate a FastAPI Resource file with the given endpoint name.
+    Generate a FastAPI Resource file with the given resource name and update the router.
     """
     # Define the target directory
     endpoints_dir = Path("src/admin/routes")
+    admin_dir = Path("src/admin")
     endpoints_dir.mkdir(parents=True, exist_ok=True)
 
-    # Define the filename
+    # Define the filename for the new resource
     filename = endpoints_dir / f"{endpoint_name.lower()}.py"
 
+    # Define the content of the resource file
     content = f"""\
 from fastapi.templating import Jinja2Templates
 from fastapi import APIRouter, Request
@@ -175,20 +177,50 @@ templates = Jinja2Templates(directory="templates/pages")
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {
+    return templates.TemplateResponse("index.html", {{
         "request": request,
         "title": "{endpoint_name}",
         "current_page": "{endpoint_name.lower()}"
-    })
+    }})
 """
-    
-    # Write the content to the file
+
+    # Write the content to the new resource file
     try:
         with open(filename, "w") as f:
             f.write(content)
         click.echo(f"Resource file '{filename}' generated successfully.")
     except Exception as e:
         click.echo(f"Error: {e}")
+        return
+
+    # Update the router file
+    router_file = admin_dir / "routers.py"
+    try:
+        with open(router_file, "r") as f:
+            lines = f.readlines()
+
+        # Find the line where imports end and the router definition starts
+        import_end_index = next(
+            (i for i, line in enumerate(lines) if line.strip().startswith("app_router = APIRouter()")),
+            len(lines),
+        )
+
+        # Add the new import
+        new_import = f"from src.admin.routes import {endpoint_name.lower()}\n"
+        if new_import not in lines:
+            lines.insert(import_end_index - 1, new_import)
+
+        # Add the new include_router statement
+        new_include = f'app_router.include_router(router={endpoint_name.lower()}.router, prefix="/{endpoint_name.lower()}")\n'
+        if new_include not in lines:
+            lines.append(new_include)
+
+        # Write the updated content back to the file
+        with open(router_file, "w") as f:
+            f.writelines(lines)
+        click.echo(f"Router file '{router_file}' updated successfully.")
+    except Exception as e:
+        click.echo(f"Error updating router file: {e}")
 
 
 if __name__ == "__main__":

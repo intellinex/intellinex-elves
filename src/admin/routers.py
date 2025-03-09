@@ -1,8 +1,5 @@
 from fastapi import APIRouter
-from src.admin.routes import (
- dashboard
-)
-
+from src.admin.routes import dashboard
 
 app_router = APIRouter()
 
