@@ -3,6 +3,19 @@ class Component {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
     }
+    async loadNavItem(file, targetId, current_page) {
+        try {
+            const response = await fetch(file);
+            if (!response.ok) throw new Error(`Failed to load ${file}: ${response.statusText}`);
+            let html = await response.text();
+            const folderName = file.split('/').slice(-2, -1)[0];
+            const isActive = current_page[1] === folderName;
+            html = html.replace('{{current_page}}', isActive ? 'active' : '');
+            document.getElementById(targetId).insertAdjacentHTML('beforeend', html);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     render() {
         throw new Error("Render method must be implemented by subclasses.");
     }
@@ -13,56 +26,18 @@ class Sidebar extends Component {
         super(containerId);
     }
 
-    
-    
     async render() {
         const path = window.location.pathname;
         const current_page = path.split("/");
         this.container.innerHTML = `
             <aside class="c_sidebar d-flex flex-column justify-content-between" id="c_sidebar">
                 <div>
-                    
                     <div id="sidebar-header"></div>
-
-                     <nav>
-                        <ul class="c_nav" id="dashboard"></ul>
-                     </nav>
-
-
+                    
+                    <!-- Default Dashboard -->
                     <nav>
-                        <span class="c_label">Platform</span>
-                        <ul class="c_nav">
-                            <li>
-                                <a href="/author/platform/certificate/list"
-                                class="d-flex flex-row align-items-center justify-content-between {{'active' if current_page == 'content' else ''}} "
-                                aria-current="page">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
-                                        <span>Certificate Verification</span>
-                                    </div>
-                                    <!-- <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" class="lucide lucide-chevron-right">
-                                            <path d="m9 18 6-6-6-6"/>
-                                        </svg>
-                                    </div> -->
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="/author/platform/media/list"
-                                class="d-flex flex-row align-items-center justify-content-between {{'active' if current_page == 'content' else ''}} "
-                                aria-current="page">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gallery-vertical-end"><path d="M7 2h10"/><path d="M5 6h14"/><rect width="18" height="12" x="3" y="10" rx="2"/></svg>
-                                        <span>Media</span>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
+                        <ul class="c_nav" id="dashboard"></ul>
                     </nav>
-
 
 
                     <!-- GROUP Authentication -->
@@ -85,20 +60,6 @@ class Sidebar extends Component {
 
         this.addEventListeners();
         this.initializeEventListeners();
-    }
-
-    async loadNavItem(file, targetId, current_page) {
-        try {
-            const response = await fetch(file);
-            if (!response.ok) throw new Error(`Failed to load ${file}: ${response.statusText}`);
-            let html = await response.text();
-            const folderName = file.split('/').slice(-2, -1)[0];
-            const isActive = current_page[1] === folderName;
-            html = html.replace('{{current_page}}', isActive ? 'active' : '');
-            document.getElementById(targetId).insertAdjacentHTML('beforeend', html);
-        } catch (error) {
-            console.error(error);
-        }
     }
 
     initializeEventListeners() {
@@ -128,6 +89,8 @@ class Header extends Component {
     }
 
     render() {
+        const path = window.location.pathname.replace(/\/$/, '');
+        const current_page = path.split("/");
         this.container.innerHTML = `
             <header class="header">
                 <div class="header-left">
@@ -146,6 +109,19 @@ class Header extends Component {
                         </span>
                     </button>
 
+                    <div class="c_breadcrumb">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                        ${current_page.slice(1).map((item) => {
+                            return `
+                            <div>
+                                <span style="font-size: 10px; color: #888888;" >/</span>
+                                <span style="font-size: 13px; color: #888888; text-transform: capitalize;" >
+                                    ${item}
+                                </span>
+                            </div>
+                            `
+                        })}
+                    </div>
 
                 </div>
 
@@ -154,7 +130,7 @@ class Header extends Component {
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#333333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-ring"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg>
                         <span style="font-size: 13px; margin-left: 4px;">Notification</span>
                     </a>
-                    <a href="#" class="user-profile" aria-label="User Profile">
+                    <a href="/profile" class="user-profile" aria-label="User Profile">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg></a>
                 </div>
             </header>
@@ -162,15 +138,63 @@ class Header extends Component {
     }
 }
 
+
+class ActionContainer extends Component {
+    constructor(containerId) {
+        super(containerId);
+    }
+    async render() {
+
+        const path = window.location.pathname.replace(/\/$/, '');
+        const current_page = path.split("/");
+
+        this.container.innerHTML = `
+          <div id="table-bar-action"></div>  
+        `;
+
+        await this.loadNavItem('/static/components/admin/table-bar-action.html', 'table-bar-action', current_page);
+
+        this.addEventListeners();
+    }
+    addEventListeners() {
+        const addButton = this.container.querySelector("#add-button");
+        addButton.addEventListener("click", () => {
+            console.log("Add button clicked!");
+            // Add your logic here
+        });
+
+        const editButton = this.container.querySelector("#edit-button");
+        editButton.addEventListener("click", () => {
+            console.log("Edit button clicked!");
+            // Add your logic here
+        });
+
+        const deleteButton = this.container.querySelector("#delete-button");
+        deleteButton.addEventListener("click", () => {
+            console.log("Delete button clicked!");
+            // Add your logic here
+        });
+
+        const moreButton = this.container.querySelector("#more-button");
+        moreButton.addEventListener("click", () => {
+            console.log("More button clicked!");
+            // Add your logic here
+        });
+    }
+}
+
+
 class Dashboard {
     constructor() {
         this.sidebar = new Sidebar("sidebar-container");
         this.header = new Header("header-container");
+        this.action = new ActionContainer('table-action-container');
     }
 
     initialize() {
         this.sidebar.render();
         this.header.render();
+        this.action.render();
     }
 }
 
@@ -185,13 +209,14 @@ $(document).ready(function () {
     $(".menu_icon").click(function (e) {
       e.stopPropagation();
       $("#c_sidebar").toggleClass("active");
-      console.log('Open Side bar');
     });
   
     $(document).click(function (e) {
       if (!$(e.target).closest("#c_sidebar").length && !$(e.target).is(".menu_icon")) {
         $("#c_sidebar").removeClass("active");
-        console.log("Close Side Bar")
       }
     });
+
+
+
 });

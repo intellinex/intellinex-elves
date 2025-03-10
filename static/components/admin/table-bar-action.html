@@ -1,0 +1,57 @@
+<div class="d-flex flex-row align-items-center justify-content-between px-4 pt-3">
+    <div class="d-flex flex-row align-items-center gap-2" >
+
+        <button class="btn btn-sm" style="background-color: var(--primary);" id="add-button">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                <span style="color: white;" >Add</span>
+            </div>
+        </button>
+                    
+        <button id="edit-button" class="btn btn-sm" style="background-color: var(--primary);" >
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                <span style="color: white;" >Edit</span>
+            </div>
+        </button>
+
+        <button id="delete-button" class="btn btn-sm" style="background-color: var(--red);" >
+            <div >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                <span style="color: white;" >Delete</span>
+            </div>
+        </button>
+
+        <button id="more-button" class="btn btn-sm bg-secondary" >
+            <div >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cog"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m11 13.73-4 6.93"/></svg>
+                <span style="color: white;" >More</span>
+            </div>
+        </button>
+    </div>
+
+    <div class="d-flex flex-row align-items-center gap-2">
+        <input 
+            type="text"
+            placeholder="Search"
+            class="border d-flex flex-row align-items-center gap-2 px-2" 
+            style="height: 32px; width: 150px; font-size: 12px; outline: 0ch;" 
+            >
+        
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; height: 32px; background-color: #F4F7FB; border-radius: 5px; border: 1px solid #EFEFEF;">
+            <button class="d-flex align-items-center justify-content-center" style="background-color: transparent; width: 31px; height: 31px; border: none; border-right: 1px solid #EFEFEF;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-panel-left"><rect width="7" height="18" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/></svg>
+            </button>
+            
+            <button class="d-flex align-items-center justify-content-center" style="background-color: transparent; width: 31px; height: 31px; border: none; border-right: 1px solid #EFEFEF;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-from-line"><path d="M3 5v14"/><path d="M21 12H7"/><path d="m15 18 6-6-6-6"/></svg>
+            </button>
+
+            <button class="d-flex align-items-center justify-content-center" style="background-color: transparent; width: 31px; height: 31px; border: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+            </button>
+
+        </div>
+    </div>
+</div>
