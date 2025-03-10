@@ -160,11 +160,15 @@ def resource(endpoint_name):
     """
     # Define the target directory
     endpoints_dir = Path("src/admin/routes")
-    admin_dir = Path("src/admin")
     endpoints_dir.mkdir(parents=True, exist_ok=True)
+    admin_dir = Path("src/admin")
+
+    templates_dir = Path(f"templates/pages/{endpoint_name.lower()}")
+    templates_dir.mkdir(parents=True, exist_ok=True)
 
     # Define the filename for the new resource
     filename = endpoints_dir / f"{endpoint_name.lower()}.py"
+    template_file = templates_dir / "index.html"
 
     # Define the content of the resource file
     content = f"""\
@@ -173,22 +177,36 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates/pages")
+templates = Jinja2Templates(directory="templates")
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {{
+    return templates.TemplateResponse("/pages/{endpoint_name.lower()}/index.html", {{
         "request": request,
         "title": "{endpoint_name}",
         "current_page": "{endpoint_name.lower()}"
     }})
 """
+    
+
+    # Template content
+    templates = """\
+{% extends "layout.html" %}
+{% block title %} Location {% endblock %}
+
+{% block content %}
+{% endblock %}
+"""
+    
 
     # Write the content to the new resource file
     try:
         with open(filename, "w") as f:
             f.write(content)
         click.echo(f"Resource file '{filename}' generated successfully.")
+        with open(template_file, "w") as t:
+            t.write(templates)
+        click.echo(f"Templates {template_file} created successfully.")
     except Exception as e:
         click.echo(f"Error: {e}")
         return
