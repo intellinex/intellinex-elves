@@ -39,12 +39,20 @@ class Sidebar extends Component {
                         <ul class="c_nav" id="dashboard"></ul>
                     </nav>
 
-
                     <!-- GROUP Authentication -->
                     <nav>
                         <span class="c_label">Auth</span>
                         <ul class="c_nav" id="auth-nav"></ul>
                     </nav>
+
+                    
+                    
+            <!-- GROUP Platform -->
+            <nav>
+                <span class="c_label">Platform</span>
+                <ul class="c_nav" id="platform-nav"></ul>
+            </nav>
+            <!-- Customize Layout -->
 
                 </div>
 
@@ -57,8 +65,8 @@ class Sidebar extends Component {
         await this.loadNavItem('/static/components/user/menu.html', 'auth-nav', current_page);
         await this.loadNavItem('/static/components/admin/header.html', 'sidebar-header', current_page);
         await this.loadNavItem('/static/components/admin/footer.html', 'sidebar-footer', current_page);
-
-        this.addEventListeners();
+        await this.loadNavItem('/static/components/platform/menu.html', 'platform-nav', current_page);
+            this.addEventListeners();
         this.initializeEventListeners();
     }
 
@@ -216,7 +224,4 @@ $(document).ready(function () {
         $("#c_sidebar").removeClass("active");
       }
     });
-
-
-
 });

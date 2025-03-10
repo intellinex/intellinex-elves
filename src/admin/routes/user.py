@@ -10,5 +10,6 @@ async def index(request: Request):
     return templates.TemplateResponse("/pages/user/index.html", {
         "request": request,
         "title": "User",
-        "current_page": "user"
+        "current_page": "user",
+        "description": "Create, update user resource."
     })
