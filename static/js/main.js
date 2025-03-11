@@ -46,15 +46,25 @@ class Sidebar extends Component {
                         <span class="c_label">Auth</span>
                         <ul class="c_nav" id="auth-nav"></ul>
                     </nav>
-
-                    
                     
                     <!-- GROUP Platform -->
                     <nav>
                         <span class="c_label">Platform</span>
                         <ul class="c_nav" id="platform-nav"></ul>
                     </nav>
-                    <!-- Customize Layout -->
+            
+                    <!-- GROUP Product -->
+                    <nav>
+                        <span class="c_label">Product</span>
+                        <ul class="c_nav" id="product-nav"></ul>
+                    </nav>
+            
+                    <!-- GROUP Payment -->
+                    <nav>
+                        <span class="c_label">Payment</span>
+                        <ul class="c_nav" id="payment-nav"></ul>
+                    </nav>
+            <!-- Customize Layout -->
 
                 </div>
 
@@ -68,6 +78,9 @@ class Sidebar extends Component {
         await this.loadNavItem('/static/components/admin/header.html', 'sidebar-header');
         await this.loadNavItem('/static/components/admin/footer.html', 'sidebar-footer');
         await this.loadNavItem('/static/components/platform/menu.html', 'platform-nav');
+        await this.loadNavItem('/static/components/product/menu.html', 'product-nav');
+        
+        await this.loadNavItem('/static/components/payment/menu.html', 'payment-nav');
             this.addEventListeners();
         this.initializeEventListeners();
     }
