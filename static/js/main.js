@@ -1,15 +1,18 @@
 
+const path = window.location.pathname.replace(/\/$/, '');
+
 class Component {
+
     constructor(containerId) {
         this.container = document.getElementById(containerId);
     }
-    async loadNavItem(file, targetId, current_page) {
+    async loadNavItem(file, targetId) {
         try {
             const response = await fetch(file);
             if (!response.ok) throw new Error(`Failed to load ${file}: ${response.statusText}`);
             let html = await response.text();
             const folderName = file.split('/').slice(-2, -1)[0];
-            const isActive = current_page[1] === folderName;
+            const isActive = path.split("/")[1] === folderName;
             html = html.replace('{{current_page}}', isActive ? 'active' : '');
             document.getElementById(targetId).insertAdjacentHTML('beforeend', html);
         } catch (error) {
@@ -27,8 +30,7 @@ class Sidebar extends Component {
     }
 
     async render() {
-        const path = window.location.pathname;
-        const current_page = path.split("/");
+
         this.container.innerHTML = `
             <aside class="c_sidebar d-flex flex-column justify-content-between" id="c_sidebar">
                 <div>
@@ -47,12 +49,12 @@ class Sidebar extends Component {
 
                     
                     
-            <!-- GROUP Platform -->
-            <nav>
-                <span class="c_label">Platform</span>
-                <ul class="c_nav" id="platform-nav"></ul>
-            </nav>
-            <!-- Customize Layout -->
+                    <!-- GROUP Platform -->
+                    <nav>
+                        <span class="c_label">Platform</span>
+                        <ul class="c_nav" id="platform-nav"></ul>
+                    </nav>
+                    <!-- Customize Layout -->
 
                 </div>
 
@@ -61,22 +63,24 @@ class Sidebar extends Component {
             </aside>
         `;
 
-        await this.loadNavItem('/static/components/admin/page.html', 'dashboard', current_page);
-        await this.loadNavItem('/static/components/user/menu.html', 'auth-nav', current_page);
-        await this.loadNavItem('/static/components/admin/header.html', 'sidebar-header', current_page);
-        await this.loadNavItem('/static/components/admin/footer.html', 'sidebar-footer', current_page);
-        await this.loadNavItem('/static/components/platform/menu.html', 'platform-nav', current_page);
+        await this.loadNavItem('/static/components/admin/page.html', 'dashboard');
+        await this.loadNavItem('/static/components/user/menu.html', 'auth-nav');
+        await this.loadNavItem('/static/components/admin/header.html', 'sidebar-header');
+        await this.loadNavItem('/static/components/admin/footer.html', 'sidebar-footer');
+        await this.loadNavItem('/static/components/platform/menu.html', 'platform-nav');
             this.addEventListeners();
         this.initializeEventListeners();
     }
 
     initializeEventListeners() {
         $(document).ready(function () {
+
+            // Dropdown logic
             $("#user").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                $(this).siblings(".c_dropdown_menu").slideToggle(400);
-                $(this).find(".dropdown-arrow").toggleClass("active");
+                $(this).siblings("#c_dropdown_menu_user").slideToggle(400);
+                $(this).find("#dropdown-arrow-user").toggleClass("active");
               });
         })
     }
@@ -152,15 +156,11 @@ class ActionContainer extends Component {
         super(containerId);
     }
     async render() {
-
-        const path = window.location.pathname.replace(/\/$/, '');
-        const current_page = path.split("/");
-
         this.container.innerHTML = `
           <div id="table-bar-action"></div>  
         `;
 
-        await this.loadNavItem('/static/components/admin/table-bar-action.html', 'table-bar-action', current_page);
+        await this.loadNavItem('/static/components/admin/table-bar-action.html', 'table-bar-action');
 
         this.addEventListeners();
     }
@@ -202,7 +202,10 @@ class Dashboard {
     initialize() {
         this.sidebar.render();
         this.header.render();
-        this.action.render();
+        console.log(path.split("/")[1])
+        if(path.split("/")[1] !== "admin") {
+            this.action.render();
+        }
     }
 }
 
