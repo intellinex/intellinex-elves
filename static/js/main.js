@@ -59,11 +59,12 @@ class Sidebar extends Component {
                         <ul class="c_nav" id="product-nav"></ul>
                     </nav>
             
-                    <!-- GROUP Payment -->
-                    <nav>
-                        <span class="c_label">Payment</span>
-                        <ul class="c_nav" id="payment-nav"></ul>
-                    </nav>
+            
+            <!-- GROUP Transaction -->
+            <nav>
+                <span class="c_label">Transaction</span>
+                <ul class="c_nav" id="transaction-nav"></ul>
+            </nav>
             <!-- Customize Layout -->
 
                 </div>
@@ -80,21 +81,28 @@ class Sidebar extends Component {
         await this.loadNavItem('/static/components/platform/menu.html', 'platform-nav');
         await this.loadNavItem('/static/components/product/menu.html', 'product-nav');
         
-        await this.loadNavItem('/static/components/payment/menu.html', 'payment-nav');
-            this.addEventListeners();
+            await this.loadNavItem('/static/components/transaction/menu.html', 'transaction-nav');
+this.addEventListeners();
         this.initializeEventListeners();
     }
 
     initializeEventListeners() {
         $(document).ready(function () {
-
-            // Dropdown logic
             $("#user").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 $(this).siblings("#c_dropdown_menu_user").slideToggle(400);
                 $(this).find("#dropdown-arrow-user").toggleClass("active");
+            });
+
+
+            $("#transaction").click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).siblings("#c_dropdown_menu_transaction").slideToggle(400);
+                $(this).find("#dropdown-arrow-transaction").toggleClass("active");
               });
+// Dropdown logic
         })
     }
 

@@ -7,7 +7,8 @@ from src.admin.routes import platform
 from src.admin.routes import channel
 from src.admin.routes import product
 from src.admin.routes import order
-from src.admin.routes import payment
+
+from src.admin.routes import transaction
 
 app_router = APIRouter()
 
@@ -19,4 +20,4 @@ app_router.include_router(router=platform.router, prefix="/platform")
 app_router.include_router(router=channel.router, prefix="/channel")
 app_router.include_router(router=product.router, prefix="/product")
 app_router.include_router(router=order.router, prefix="/order")
-app_router.include_router(router=payment.router, prefix="/payment")
+app_router.include_router(router=transaction.router, prefix="/transaction")
