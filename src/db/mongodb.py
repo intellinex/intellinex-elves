@@ -8,14 +8,18 @@ class Database:
 db_instance = Database()
 
 async def connect_to_mongo():
-    """Connect to MongoDB asynchronously."""
     db_instance.client = AsyncIOMotorClient(settings.MONGODB_URL)
     db_instance.db = db_instance.client[settings.MONGODB_DATABASE]
-
-
-    print("✅ Connected to MongoDB")
+    print("PRINT: ✅ Connected to MongoDB")
 
 async def close_mongo_connection():
-    """Close MongoDB connection."""
     db_instance.client.close()
-    print("❌ Disconnected from MongoDB")
+    print("PRINT: ❌ Disconnected from MongoDB")
+
+async def get_async_db ():
+    client = AsyncIOMotorClient(settings.MONGODB_URL)
+    db = client[settings.MONGODB_DATABASE]
+    try:
+        yield db
+    finally:
+        client.close()

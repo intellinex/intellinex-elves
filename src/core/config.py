@@ -7,10 +7,10 @@ load_dotenv()
 class Settings(BaseSettings):
     MONGODB_URL: str = os.getenv('MONGODB_URI')
     MONGODB_DATABASE: str = os.getenv("DB_NAME")
-    PROJECT_NAME: str = "JobFusion CAP"
+    PROJECT_NAME: str = "INTELLINEX SOFT"
     VERSION: str = "1.0.0"
 
-    PORT: int = os.getenv("PORT", 8001)  # Default to 8001 if not provided
+    PORT: int = os.getenv("PORT", 8000) 
     HOST: str = os.getenv("HOST", "0.0.0.0")
     SECRET_KEY: str = os.getenv("SECRET_KEY")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
