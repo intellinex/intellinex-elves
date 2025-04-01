@@ -81,8 +81,8 @@ class Sidebar extends Component {
         await this.loadNavItem('/static/components/platform/menu.html', 'platform-nav');
         await this.loadNavItem('/static/components/product/menu.html', 'product-nav');
         
-            await this.loadNavItem('/static/components/transaction/menu.html', 'transaction-nav');
-this.addEventListeners();
+        await this.loadNavItem('/static/components/transaction/menu.html', 'transaction-nav');
+        this.addEventListeners();
         this.initializeEventListeners();
     }
 
