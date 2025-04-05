@@ -2,3 +2,25 @@
 .env
 
 bin
+
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.egg-info
+*.egg
+*.log
+*.coverage
+*.mypy_cache
+*.pytest_cache
+*.hypothesis
+*.tox
+*.coverage.*
+*.coverage.*
+*.cover
+*.hypothesis/
+*.hypothesis/
+*.hypothesis/

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
 from src.db.mongodb import close_mongo_connection, connect_to_mongo
 from src.core.config import settings
@@ -18,11 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# API ROUTERS
-app.include_router(api_router, prefix="/api/v1")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
+app.include_router(api_router)
 
-# START UP AND SHUTDOWN DATABASE
 @app.on_event("startup")
 async def startup():
     """Connect to MongoDB on startup."""
