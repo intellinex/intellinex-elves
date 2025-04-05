@@ -6,20 +6,33 @@ def create_model_command(model_name):
     models_dir = Path("src/model")
     models_dir.mkdir(parents=True, exist_ok=True)  
 
-    filename = models_dir / f"{model_name.lower()}_model.py"
+    filename = models_dir / f"{model_name.lower()}.py"
     content = f"""\
 from pydantic import BaseModel
+from datetime import datetime
+from bson import ObjectId
+from typing import Optional, List
 
 class {model_name}(BaseModel):
-    \"\"\"
-    {model_name} model for FastAPI.
-    \"\"\"
-    id: int
-    name: str
-    description: str | None = None
+    id: str
+    title: str
+    created_at: datetime = datetime.utcnow()
+    updated_at: datetime = datetime.utcnow()
 
-# Example usage:
-# {model_name.lower()} = {model_name}(id=1, name="Example", description="This is an example model.")
+class {model_name}Create(BaseModel):
+    title: str
+    created_at: datetime = datetime.utcnow()
+
+
+class {model_name}Update(BaseModel):
+    title: Optional[str] = None
+    updated_at: datetime = datetime.utcnow()
+
+
+class {model_name}InDB({model_name}):
+    id: str
+    created_at: datetime = datetime.utcnow()
+    updated_at: datetime = datetime.utcnow()
 """
 
     try:
